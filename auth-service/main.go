@@ -9,6 +9,12 @@ import (
 )
 
 func main() {
+	// env, err := internal_config.InitConfig()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// producer, err:= kafka.NewKafkaProducerConfig()
 
 	// Run a separate go routine to generate logs
 	go func() {

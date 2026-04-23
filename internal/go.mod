@@ -1,4 +1,4 @@
-module github.com/pnaskardev/EventLens
+module github.com/pnaskardev/EventLens/internal
 
 go 1.25.0
 
