@@ -1,6 +1,7 @@
 package kafka
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/IBM/sarama"
@@ -17,6 +18,8 @@ var (
 )
 
 func NewKafkaProducer(brokers []string) (*KafkaProducer, error) {
+
+	fmt.Println(brokers)
 
 	if kafkaProducerInstance != nil {
 		return kafkaProducerInstance, nil
@@ -40,5 +43,9 @@ func NewKafkaProducer(brokers []string) (*KafkaProducer, error) {
 	}
 
 	return kafkaProducerInstance, nil
+
+}
+
+func (p *KafkaProducer) Publish(message []byte) error {
 
 }

@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
@@ -13,9 +13,19 @@ type Env struct {
 }
 
 func InitConfig() (Env, error) {
-	err := godotenv.Load()
+
+	dir, err := os.Getwd()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		return Env{}, err
+	}
+	fmt.Printf("Current working directory: %s\n", dir)
+
+	envPath := filepath.Join(dir, "..", ".env")
+
+	fmt.Printf("Loading .env from: %s\n", envPath)
+
+	if err := godotenv.Load(envPath); err != nil {
+		return Env{}, fmt.Errorf("error while loading env file %s: %v", envPath, err)
 	}
 
 	kafkaBrokers := os.Getenv("KAFKA_BROKERS")
