@@ -8,7 +8,7 @@ import (
 )
 
 type KafkaProducer struct {
-	Producer *sarama.AsyncProducer
+	producer sarama.AsyncProducer
 }
 
 var (
@@ -34,7 +34,7 @@ func NewKafkaProducer(brokers []string) (*KafkaProducer, error) {
 		}
 
 		kafkaProducerInstance = &KafkaProducer{
-			Producer: &producer,
+			producer: producer,
 		}
 	})
 
@@ -46,6 +46,22 @@ func NewKafkaProducer(brokers []string) (*KafkaProducer, error) {
 
 }
 
-func (p *KafkaProducer) Publish(message []byte) error {
+func (p *KafkaProducer) Publish(topic string, message []byte) {
+
+	// We could have implemented sync message and that will give us an ACK as well 
+	// But the server needs to run and keep on waiting 
+	msg := sarama.ProducerMessage{
+		Topic: topic,
+		Value: sarama.ByteEncoder(message),
+	}
+
+	p.producer.Input() <- &msg
+
+	// partition, offset, err := p.producer.SendMessage(message)
+	// if err != nil {
+	// 	log.Fatalf("Failed to send message: %v", err)
+	// }
+
+	// log.Printf("Message sent to partition %d at offset %d\n", partition, offset)
 
 }

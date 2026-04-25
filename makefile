@@ -3,7 +3,7 @@
 ## VARIABLES
 SERVICES_PATH=.
 
-target: auth order payment
+target: auth order payment internal
 
 auth:
 	cd $(SERVICES_PATH)/auth-service && air -c .air.toml
@@ -13,3 +13,6 @@ order:
 
 payment:
 	cd $(SERVICES_PATH)/payment-service && air -c .air.toml
+
+internal:
+	cd $(SERVICES_PATH)/internal && air -c .air.toml
