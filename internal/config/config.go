@@ -9,7 +9,8 @@ import (
 )
 
 type Env struct {
-	KafkaBrokers []string
+	KafkaBrokers    []string
+	KafkaLogGroupID string
 }
 
 func InitConfig() (Env, error) {
@@ -33,10 +34,16 @@ func InitConfig() (Env, error) {
 		return Env{}, fmt.Errorf("KAFKA_BROKERS NOT FOUND IN ENV")
 	}
 
+	kafkaLogProcessorGroupID := os.Getenv("KAFKA_LOG_GROUP_ID")
+	if len(kafkaLogProcessorGroupID) == 0 {
+		return Env{}, fmt.Errorf("KAFKA_LOG_PROCESSOR_GROUP ID NOT FOUND IN ENV")
+	}
+
 	env := Env{
 		KafkaBrokers: []string{
 			kafkaBrokers,
 		},
+		KafkaLogGroupID: kafkaLogProcessorGroupID,
 	}
 
 	return env, nil
